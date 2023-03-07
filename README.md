@@ -1,4 +1,4 @@
-# airad
+# ai-rad
 
 A new Flutter project.
 
