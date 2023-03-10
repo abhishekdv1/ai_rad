@@ -58,6 +58,64 @@ class _HomePageState extends State<HomePage> {
     AlanVoice.addButton(
         "d64fc429e076bf6873e682bd01da87d82e956eca572e1d8b807a3e2338fdd0dc/stage",
         buttonAlign: AlanVoice.BUTTON_ALIGN_RIGHT);
+    AlanVoice.activate();
+    AlanVoice.onCommand.add((command) => _handleCommand(command.data));
+    // AlanVoice.onCommand.add((command) {
+    //   debugPrint("got new command ${command.toString()}");
+    // });
+  }
+
+  _handleCommand(Map<String, dynamic> response) {
+    switch (response["command"]) {
+      case "play":
+        _playMusic(_selectedRadio.url);
+        break;
+
+      case "play_channel":
+        final id = response["id"];
+        // _audioPlayer.pause();
+        MyRadio newRadio = radios.firstWhere((element) => element.id == id);
+        radios.remove(newRadio);
+        radios.insert(0, newRadio);
+        _playMusic(newRadio.url);
+        break;
+
+      case "stop":
+        _audioPlayer.stop();
+        break;
+      case "next":
+        final index = _selectedRadio.id;
+        MyRadio newRadio;
+        if (index + 1 > radios.length) {
+          newRadio = radios.firstWhere((element) => element.id == 1);
+          radios.remove(newRadio);
+          radios.insert(0, newRadio);
+        } else {
+          newRadio = radios.firstWhere((element) => element.id == index + 1);
+          radios.remove(newRadio);
+          radios.insert(0, newRadio);
+        }
+        _playMusic(newRadio.url);
+        break;
+
+      case "prev":
+        final index = _selectedRadio.id;
+        MyRadio newRadio;
+        if (index - 1 <= 0) {
+          newRadio = radios.firstWhere((element) => element.id == 1);
+          radios.remove(newRadio);
+          radios.insert(0, newRadio);
+        } else {
+          newRadio = radios.firstWhere((element) => element.id == index - 1);
+          radios.remove(newRadio);
+          radios.insert(0, newRadio);
+        }
+        _playMusic(newRadio.url);
+        break;
+      default:
+        print("Command was ${response["command"]}");
+        break;
+    }
   }
 
   fetchRadios() async {
@@ -69,55 +127,12 @@ class _HomePageState extends State<HomePage> {
   _playMusic(String url) {
     _audioPlayer.play(AssetSource(url));
     _selectedRadio = radios.firstWhere((element) => element.url == url);
-    print(_selectedRadio);
+    // print(_selectedRadio);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   drawer: Drawer(),
-    //   body: Stack(
-    //     children: [
-    //       VxAnimatedBox()
-    //           .size(context.screenWidth, context.screenHeight)
-    //           .withGradient(
-    //             LinearGradient(
-    //               colors: [
-    //                 AIColors.primaryColor1,
-    //                 AIColors.primaryColor2,
-    //               ],
-    //               begin: Alignment.centerLeft,
-    //               end: Alignment.topRight,
-    //             ),
-    //           )
-    //           .make(),
-    //       AppBar(
-    //         title: "Tunes".text.xl4.bold.white.make().shimmer(
-    //             primaryColor: Vx.purple300, secondaryColor: Colors.white),
-    //         backgroundColor: Colors.transparent,
-    //         elevation: 0.0,
-    //         centerTitle: true,
-    //       ).h(100.0).p4(),
-    // VxSwiper.builder(
-    //   itemCount: radios.length,
-    //   aspectRatio: 1.0,
-    //   itemBuilder: (context, index) {
-    //     final rad = radios[index];
-    //     return VxBox(child: ZStack([]))
-    //         .bgImage(
-    //           DecorationImage(
-    //               image: NetworkImage(rad.image),
-    //               fit: BoxFit.cover,
-    //               colorFilter: ColorFilter.mode(
-    //                   Colors.black.withOpacity(0.3), BlendMode.darken)),
-    //         )
-    //         .make();
-    //   },
-    // )
-    //     ],
-    //   ),
-    // );
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -247,7 +262,7 @@ class _HomePageState extends State<HomePage> {
                           .onInkDoubleTap(() {
                         // if (radios.isNotEmpty) _playMusic('getlucky.mp3');
                         if (_isPlaying) {
-                          print('hello world\n\n\n\n\n');
+                          // print('hello world\n\n\n\n\n');
                           _audioPlayer
                               .stop()
                               .then((value) => _playMusic(rad.url));
@@ -275,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                         size: 40.0)
                     .onInkTap(() {
                   if (_isPlaying) {
-                    print('hello world\n\n\n\n\n');
+                    // print('hello world\n\n\n\n\n');
                     _audioPlayer.pause();
                   } else {
                     //  _playMusic(rad.url);
