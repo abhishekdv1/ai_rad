@@ -40,6 +40,12 @@ dependencies:
   google_fonts: ^4.0.3
   alan_voice: ^3.11.0
   flutter_launcher_icons: ^0.12.0
+  firebase_auth: ^4.4.1
+  firebase_core: ^2.9.0
+  cloud_firestore: ^4.5.1
+  lastfm: ^0.0.5
+  xml2json: ^5.3.6
+  modal_progress_hud_nsn: ^0.3.0
  
 dev_dependencies:
   flutter_lints: ^2.0.1

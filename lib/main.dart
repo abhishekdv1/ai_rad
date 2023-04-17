@@ -1,12 +1,16 @@
 import 'package:airad/pages/home_page.dart';
+import 'package:airad/pages/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -44,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       theme: ThemeData(
         fontFamily: GoogleFonts.poppins().fontFamily,
       ),
-      home: HomePage(),
+      home: const LoginScreen(),
     );
   }
 }

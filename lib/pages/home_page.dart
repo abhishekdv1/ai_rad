@@ -3,9 +3,12 @@
 // import 'dart:convert';
 
 import 'package:airad/model/radio.dart';
+import 'package:airad/pages/login_screen.dart';
+import 'package:airad/pages/search_screen.dart';
 import 'package:airad/utils/ai_utils.dart';
 import 'package:alan_voice/alan_voice.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,22 +22,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   List<MyRadio> radios = [];
-  late MyRadio _selectedRadio = MyRadio(
-      id: 4,
-      name: "95",
-      tagline: "London UK Asian Music",
-      color: "0xff0d487d",
-      desc: "",
-      url: "http://icy-e-01-cr.sharp-stream.com/1458.mp3",
-      icon: "https://static.radio.net/images/broadcasts/5d/9c/37907/1/c175.png",
-      image:
-          "https://static.radio.net/images/broadcasts/5d/9c/37907/1/c175.png",
-      lang: "English",
-      category: "jazz",
-      order: 4);
+  late MyRadio _selectedRadio;
+  // late MyRadio _selectedRadio = MyRadio(
+  //     id: 4,
+  //     name: "95",
+  //     tagline: "London UK Asian Music",
+  //     color: "0xff0d487d",
+  //     desc: "",
+  //     url: "http://icy-e-01-cr.sharp-stream.com/1458.mp3",
+  //     icon: "https://static.radio.net/images/broadcasts/5d/9c/37907/1/c175.png",
+  //     image:
+  //         "https://static.radio.net/images/broadcasts/5d/9c/37907/1/c175.png",
+  //     lang: "English",
+  //     category: "jazz",
+  //     order: 4);
   late Color _selectedColor;
   bool _isPlaying = false;
+  final sugg = [
+    "Play",
+    "Stop",
+    "Play rock music",
+    "Play 107 FM",
+    "Play next",
+    "Play 104 FM",
+    "Pause",
+    "Play previous",
+    "Play pop music"
+  ];
 
   final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -60,6 +76,7 @@ class _HomePageState extends State<HomePage> {
         buttonAlign: AlanVoice.BUTTON_ALIGN_RIGHT);
     AlanVoice.activate();
     AlanVoice.onCommand.add((command) => _handleCommand(command.data));
+    AlanVoice.callbacks.add((command) => _handleCommand(command.data));
     // AlanVoice.onCommand.add((command) {
     //   debugPrint("got new command ${command.toString()}");
     // });
@@ -121,6 +138,7 @@ class _HomePageState extends State<HomePage> {
   fetchRadios() async {
     final radioJson = await rootBundle.loadString("assets/radio.json");
     radios = MyRadioList.fromJson(radioJson).radios;
+    _selectedRadio = radios[0];
     setState(() {});
   }
 
@@ -179,7 +197,17 @@ class _HomePageState extends State<HomePage> {
                 title: Text('Sign Out'),
                 textColor: Colors.white,
                 onTap: () {
-                  // Perform sign out action
+                  User? user = auth.currentUser;
+                  if (user != null) {
+                    auth.signOut();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (Route<dynamic> route) => false);
+                  } else {
+                    debugPrint('hello');
+                  }
                 },
               ),
             ],
@@ -193,6 +221,17 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.search_rounded),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen(),
+                      ));
+                }),
+          ],
         ).h(100).p(6).preferredSize(Size.fromHeight(100)),
         body: Stack(
           children: [
@@ -207,6 +246,9 @@ class _HomePageState extends State<HomePage> {
                     itemCount: radios.length,
                     aspectRatio: 1.0,
                     enlargeCenterPage: true,
+                    onPageChanged: (index) {
+                      _selectedRadio = radios[index];
+                    },
                     itemBuilder: (context, index) {
                       final rad = radios[index];
                       return VxBox(

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "470763787329",
+    "project_id": "ai-rad",
+    "storage_bucket": "ai-rad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470763787329:android:39dc6dae4fe0e0a495a2c0",
+        "android_client_info": {
+          "package_name": "com.example.airad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "470763787329-la96fi3oi7sc56l3j12cmdqp627liahp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.airad",
+            "certificate_hash": "1974b8eb6254f343036e17b9c378535cfe7c0c5c"
+          }
+        },
+        {
+          "client_id": "470763787329-882nnqq7nhsomk8inm955i5kgaag46b9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArihB_AsuHFq7-KODLwqwSZtYcBuMeCbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "470763787329-882nnqq7nhsomk8inm955i5kgaag46b9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
