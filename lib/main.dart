@@ -46,8 +46,12 @@ class _MyHomePageState extends State<MyHomePage> {
       debugShowCheckedModeBanner: false,
       title: 'Tune|^_^|In',
       theme: ThemeData(
-        fontFamily: GoogleFonts.poppins().fontFamily,
-      ),
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          scaffoldBackgroundColor: Colors.black,
+          textTheme: Theme.of(context).textTheme.copyWith(
+                subtitle1: const TextStyle(color: Colors.white),
+              )),
+      // home: const LoginScreen(),
       home: const LoginScreen(),
     );
   }

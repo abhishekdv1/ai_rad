@@ -2,6 +2,7 @@ import 'package:airad/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -46,9 +47,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    'Bart-lo',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
+                    'AI-RAD',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ).text.xl4.bold.white.make().shimmer(
+                      primaryColor: Vx.green300, secondaryColor: Colors.white),
                   const SizedBox(
                     height: 10,
                   ),
@@ -63,12 +68,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: emailController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Vx.green300),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Vx.green300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Vx.green300),
+                      ),
                       labelText: 'Email',
-                      labelStyle: const TextStyle(fontSize: 16),
-                      prefixIcon: Icon(
+                      labelStyle:
+                          const TextStyle(fontSize: 16, color: Vx.green300),
+                      prefixIcon: const Icon(
                         Icons.email_rounded,
-                        color: Theme.of(context).primaryColor,
+                        color: Vx.green300,
                       ),
                     ),
                     validator: (value) =>
@@ -85,12 +101,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: passwordController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Vx.green300),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Vx.green300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Vx.green300),
+                      ),
                       labelText: 'Password',
-                      labelStyle: const TextStyle(fontSize: 16),
-                      prefixIcon: Icon(
+                      labelStyle:
+                          const TextStyle(fontSize: 16, color: Vx.green300),
+                      prefixIcon: const Icon(
                         Icons.lock_rounded,
-                        color: Theme.of(context).primaryColor,
+                        color: Vx.green300,
                       ),
                     ),
                     validator: ((value) {
@@ -110,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         register();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: Vx.green300,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -125,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Text.rich(TextSpan(
                     text: "Already have an account?",
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Vx.green300,
                       fontSize: 14,
                     ),
                     children: <TextSpan>[
@@ -133,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           text: ' Login here',
                           style: const TextStyle(
                             fontSize: 14,
-                            color: Colors.black,
+                            color: Vx.green300,
                             decoration: TextDecoration.underline,
                           ),
                           recognizer: TapGestureRecognizer()

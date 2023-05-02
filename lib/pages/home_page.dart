@@ -151,199 +151,195 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AIColors.primaryColor1, AIColors.primaryColor2],
-          begin: Alignment.centerLeft,
-          end: Alignment.topRight,
+    return Scaffold(
+      drawer: Drawer(
+        backgroundColor: Color.fromARGB(255, 0, 0, 0),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Vx.black),
+              child: const Text(
+                'AI-RAD',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ).text.xl4.bold.white.make().shimmer(
+                  primaryColor: Vx.green300, secondaryColor: Colors.white),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              title: Text(
+                'Profile',
+              ),
+              textColor: Colors.white,
+              onTap: () {
+                // Navigate to Profile page
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              title: Text('Sign Out'),
+              textColor: Colors.white,
+              onTap: () {
+                User? user = auth.currentUser;
+                if (user != null) {
+                  auth.signOut();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                      (Route<dynamic> route) => false);
+                } else {
+                  debugPrint('hello');
+                }
+              },
+            ),
+          ],
         ),
       ),
-      child: Scaffold(
-        drawer: Drawer(
-          backgroundColor: Color.fromARGB(255, 0, 0, 0),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration:
-                    BoxDecoration(color: Color.fromARGB(255, 243, 149, 240)),
-                child: Text(
-                  'AI-RAD',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 139, 54, 54),
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Profile',
-                ),
-                textColor: Colors.white,
-                onTap: () {
-                  // Navigate to Profile page
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                ),
-                title: Text('Sign Out'),
-                textColor: Colors.white,
-                onTap: () {
-                  User? user = auth.currentUser;
-                  if (user != null) {
-                    auth.signOut();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                        (Route<dynamic> route) => false);
-                  } else {
-                    debugPrint('hello');
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        primary: true,
+        title: "Tunes"
+            .text
+            .xl4
+            .bold
+            .white
+            .make()
+            .shimmer(primaryColor: Vx.green300, secondaryColor: Colors.white),
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          primary: true,
-          title: "Tunes".text.xl4.bold.white.make().shimmer(
-              primaryColor: Vx.purple300, secondaryColor: Colors.white),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          centerTitle: true,
-          actions: [
-            IconButton(
-                icon: Icon(Icons.search_rounded),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchScreen(),
-                      ));
-                }),
-          ],
-        ).h(100).p(6).preferredSize(Size.fromHeight(100)),
-        body: Stack(
-          children: [
-            VxAnimatedBox()
-                .size(context.screenWidth, context.screenHeight)
-                .make(),
-            radios.isEmpty
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : VxSwiper.builder(
-                    itemCount: radios.length,
-                    aspectRatio: 1.0,
-                    enlargeCenterPage: true,
-                    onPageChanged: (index) {
-                      _selectedRadio = radios[index];
-                    },
-                    itemBuilder: (context, index) {
-                      final rad = radios[index];
-                      return VxBox(
-                        child: ZStack(
-                          [
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: VStack(
-                                [
-                                  rad.name.text.xl3.white.bold.make(),
-                                  5.heightBox,
-                                  rad.tagline.text.sm.white.semiBold.make(),
-                                ],
-                                crossAlignment: CrossAxisAlignment.center,
-                              ),
+        elevation: 0.0,
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search_rounded),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ));
+              }),
+        ],
+      ).h(100).p(6).preferredSize(Size.fromHeight(100)),
+      body: Stack(
+        children: [
+          VxAnimatedBox()
+              .size(context.screenWidth, context.screenHeight)
+              .make(),
+          radios.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : VxSwiper.builder(
+                  itemCount: radios.length,
+                  aspectRatio: 1.0,
+                  enlargeCenterPage: true,
+                  onPageChanged: (index) {
+                    _selectedRadio = radios[index];
+                  },
+                  itemBuilder: (context, index) {
+                    final rad = radios[index];
+                    return VxBox(
+                      child: ZStack(
+                        [
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: VStack(
+                              [
+                                rad.name.text.xl3.white.bold.make(),
+                                5.heightBox,
+                                rad.tagline.text.sm.white.semiBold.make(),
+                              ],
+                              crossAlignment: CrossAxisAlignment.center,
                             ),
-                            Positioned(
-                                top: 0.0,
-                                right: 0.0,
-                                child: VxBox(
-                                  child: rad.category.text.uppercase.white
-                                      .make()
-                                      .px16(),
-                                )
-                                    .height(40)
-                                    .black
-                                    .alignCenter
-                                    .withRounded(value: 5)
-                                    .make()),
-                            Align(
-                                alignment: Alignment.center,
-                                child: [
-                                  Icon(CupertinoIcons.play_circle_fill,
-                                      color: Colors.white),
-                                  10.heightBox,
-                                  "Double tap to play".text.gray300.make()
-                                ].vStack()),
-                          ],
-                        ),
-                      )
-                          .clip(Clip.antiAlias)
-                          .bgImage(
-                            DecorationImage(
-                                image: NetworkImage(rad.image),
-                                fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.3),
-                                    BlendMode.darken)),
-                          )
-                          .border(color: Colors.black, width: 4.0)
-                          .withRounded(value: 60.0)
-                          .make()
-                          .onInkDoubleTap(() {
-                        // if (radios.isNotEmpty) _playMusic('getlucky.mp3');
-                        if (_isPlaying) {
-                          // print('hello world\n\n\n\n\n');
-                          _audioPlayer
-                              .stop()
-                              .then((value) => _playMusic(rad.url));
-                          _playMusic(rad.url);
-                        } else {
-                          _playMusic(rad.url);
-                        }
-                        // _playMusic('getlucky.mp3');
-                      }).p(16);
-                    },
-                  ).centered(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: [
-                if (_isPlaying)
-                  "Playing Now - ${_selectedRadio.name} FM"
-                      .text
-                      .white
-                      .makeCentered(),
-                Icon(
-                        _isPlaying
-                            ? CupertinoIcons.stop_circle_fill
-                            : CupertinoIcons.play_circle_fill,
-                        color: Colors.white,
-                        size: 40.0)
-                    .onInkTap(() {
-                  if (_isPlaying) {
-                    // print('hello world\n\n\n\n\n');
-                    _audioPlayer.pause();
-                  } else {
-                    //  _playMusic(rad.url);
-                  }
-                })
-              ].vStack(),
-            ).pOnly(bottom: context.percentHeight * 4)
-          ],
-          fit: StackFit.expand,
-          clipBehavior: Clip.antiAlias,
-        ),
+                          ),
+                          Positioned(
+                              top: 15.0,
+                              right: 16.0,
+                              child: VxBox(
+                                child: rad.category.text.uppercase.white
+                                    .make()
+                                    .px12(),
+                              )
+                                  .height(40)
+                                  .black
+                                  .alignCenter
+                                  .withRounded(value: 12)
+                                  .make()),
+                          Align(
+                              alignment: Alignment.center,
+                              child: [
+                                Icon(CupertinoIcons.play_circle_fill,
+                                    color: Colors.white),
+                                10.heightBox,
+                                "Double tap to play".text.gray300.make()
+                              ].vStack()),
+                        ],
+                      ),
+                    )
+                        .clip(Clip.antiAlias)
+                        .bgImage(
+                          DecorationImage(
+                              image: NetworkImage(rad.image),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.3),
+                                  BlendMode.darken)),
+                        )
+                        .border(color: Vx.green300, width: 1.5)
+                        .withRounded(value: 40.0)
+                        .make()
+                        .onInkDoubleTap(() {
+                      // if (radios.isNotEmpty) _playMusic('getlucky.mp3');
+                      if (_isPlaying) {
+                        // print('hello world\n\n\n\n\n');
+                        _audioPlayer
+                            .stop()
+                            .then((value) => _playMusic(rad.url));
+                        _playMusic(rad.url);
+                      } else {
+                        _playMusic(rad.url);
+                      }
+                      // _playMusic('getlucky.mp3');
+                    }).p(16);
+                  },
+                ).centered(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: [
+              if (_isPlaying)
+                "Playing Now - ${_selectedRadio.name} FM"
+                    .text
+                    .white
+                    .makeCentered(),
+              Icon(
+                      _isPlaying
+                          ? CupertinoIcons.stop_circle_fill
+                          : CupertinoIcons.play_circle_fill,
+                      color: Colors.white,
+                      size: 40.0)
+                  .onInkTap(() {
+                if (_isPlaying) {
+                  // print('hello world\n\n\n\n\n');
+                  _audioPlayer.pause();
+                } else {
+                  //  _playMusic(rad.url);
+                }
+              })
+            ].vStack(),
+          ).pOnly(bottom: context.percentHeight * 4)
+        ],
+        fit: StackFit.expand,
+        clipBehavior: Clip.antiAlias,
       ),
     );
   }
