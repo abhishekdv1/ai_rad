@@ -2,6 +2,7 @@ import 'package:airad/widgets/song_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   final List? m;
@@ -29,20 +30,22 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Vx.black,
+      ),
       body: widget.m == null
           ? const Text('No result')
-          : ListView.builder(
-              itemCount: widget.m?.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 20.0),
-                  child: SongCard(
+          : Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+              child: ListView.builder(
+                itemCount: widget.m?.length,
+                itemBuilder: (context, index) {
+                  return SongCard(
                       songName: widget.m?[index]['name']['\$t'],
-                      songArtist: widget.m?[index]['artist']['\$t']),
-                );
-              },
+                      songArtist: widget.m?[index]['artist']['\$t']);
+                },
+              ),
             ),
     );
   }
